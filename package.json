@@ -14,12 +14,19 @@
     "node": ">=24",
     "pnpm": ">=10"
   },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "lefthook"
+    ]
+  },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@types/node": "catalog:",
     "eslint": "^10.2.1",
     "globals": "^17.5.0",
     "knip": "^6.7.0",
+    "lefthook": "^2.1.6",
     "tsx": "^4.21.0",
     "typescript": "catalog:",
     "typescript-eslint": "^8.58.2",
