@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "format": "oxfmt",
     "lint": "eslint .",
     "typecheck": "pnpm -r run typecheck",
     "test:packages": "pnpm -r run test",
@@ -27,6 +28,7 @@
     "globals": "^17.5.0",
     "knip": "^6.7.0",
     "lefthook": "^2.1.6",
+    "oxfmt": "^0.47.0",
     "tsx": "^4.21.0",
     "typescript": "catalog:",
     "typescript-eslint": "^8.58.2",
