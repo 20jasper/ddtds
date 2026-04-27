@@ -1,9 +1,12 @@
 {
   "name": "ddtds",
   "version": "0.0.0",
-  "type": "module",
   "bin": {
     "ddt": "./src/index.ts"
+  },
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsgo"
   },
   "dependencies": {
     "@ddtds/core": "workspace:*",
@@ -12,8 +15,5 @@
   },
   "devDependencies": {
     "vitest": "catalog:"
-  },
-  "scripts": {
-    "typecheck": "tsgo"
   }
 }

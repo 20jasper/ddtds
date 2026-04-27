@@ -1,7 +1,7 @@
 {
   "name": "ddtds",
-  "private": true,
   "version": "0.0.0",
+  "private": true,
   "type": "module",
   "scripts": {
     "format": "oxfmt",
@@ -10,16 +10,6 @@
     "test:packages": "pnpm -r run test",
     "test:docs": "tsx packages/cli/src/index.ts test",
     "knip": "knip"
-  },
-  "engines": {
-    "node": ">=24",
-    "pnpm": ">=10"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "esbuild",
-      "lefthook"
-    ]
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
@@ -33,5 +23,15 @@
     "typescript": "catalog:",
     "typescript-eslint": "^8.58.2",
     "vitest": "^4.1.5"
+  },
+  "engines": {
+    "node": ">=24",
+    "pnpm": ">=10"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "lefthook"
+    ]
   }
 }

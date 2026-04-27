@@ -11,20 +11,20 @@ stripped from the generated test (the generator adds them to the file header):
 ```tsx
 // hidden import { render, screen } from '@testing-library/react'
 function Greeting({ name }: { name: string }) {
-  return <p>Hello, {name}!</p>
+  return <p>Hello, {name}!</p>;
 }
-render(<Greeting name="world" />)
-expect(screen.getByText('Hello, world!')).toBeInTheDocument()
+render(<Greeting name="world" />);
+expect(screen.getByText("Hello, world!")).toBeInTheDocument();
 ```
 
 Query by accessible role:
 
 ```tsx
 function SaveButton() {
-  return <button type="submit">Save</button>
+  return <button type="submit">Save</button>;
 }
-render(<SaveButton />)
-expect(screen.getByRole('button', { name: 'Save' })).toBeInTheDocument()
+render(<SaveButton />);
+expect(screen.getByRole("button", { name: "Save" })).toBeInTheDocument();
 ```
 
 ## Interactions
@@ -33,11 +33,11 @@ expect(screen.getByRole('button', { name: 'Save' })).toBeInTheDocument()
 state in the DOM, so no React state is needed for a basic toggle assertion:
 
 ```tsx
-render(<input type="checkbox" aria-label="accept" />)
-const box = screen.getByRole('checkbox', { name: 'accept' })
-expect(box).not.toBeChecked()
-fireEvent.click(box)
-expect(box).toBeChecked()
+render(<input type="checkbox" aria-label="accept" />);
+const box = screen.getByRole("checkbox", { name: "accept" });
+expect(box).not.toBeChecked();
+fireEvent.click(box);
+expect(box).toBeChecked();
 ```
 
 ## Skipped example
@@ -45,6 +45,6 @@ expect(box).toBeChecked()
 This block is intentionally wrong but tagged `skip` so it never runs:
 
 ```tsx skip
-render(<div />)
-expect(screen.getByRole('button')).toBeInTheDocument()
+render(<div />);
+expect(screen.getByRole("button")).toBeInTheDocument();
 ```

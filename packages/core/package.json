@@ -5,15 +5,15 @@
   "exports": {
     ".": "./src/index.ts"
   },
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsgo"
+  },
   "dependencies": {
     "remark": "^15.0.1",
     "unist-util-visit": "^5.1.0"
   },
   "devDependencies": {
     "vitest": "catalog:"
-  },
-  "scripts": {
-    "test": "vitest run",
-    "typecheck": "tsgo"
   }
 }

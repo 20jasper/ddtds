@@ -1,5 +1,5 @@
 packages:
-  - 'packages/*'
+  - "packages/*"
 
 catalog:
   "@types/node": ^24.12.2

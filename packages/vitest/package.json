@@ -5,14 +5,14 @@
   "exports": {
     ".": "./src/index.ts"
   },
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsgo"
+  },
   "dependencies": {
     "@ddtds/core": "workspace:*"
   },
   "devDependencies": {
     "vitest": "catalog:"
-  },
-  "scripts": {
-    "test": "vitest run",
-    "typecheck": "tsgo"
   }
 }
