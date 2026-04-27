@@ -12,5 +12,8 @@
   },
   "devDependencies": {
     "vitest": "catalog:"
+  },
+  "scripts": {
+    "typecheck": "tsgo"
   }
 }

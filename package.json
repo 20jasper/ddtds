@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "lint": "eslint .",
+    "typecheck": "pnpm -r run typecheck",
     "test:packages": "pnpm -r run test",
     "test:docs": "tsx packages/cli/src/index.ts test",
     "knip": "knip"

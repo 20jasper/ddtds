@@ -5,7 +5,7 @@ describe('parseBlocks', () => {
   test('extracts ts blocks', () => {
     const blocks = parseBlocks('```ts\nconst x = 1\n```')
     expect(blocks).toHaveLength(1)
-    expect(blocks[0]).toMatchObject({ code: 'const x = 1', lang: 'ts', meta: '', line: 1 })
+    expect(blocks[0]!).toMatchObject({ code: 'const x = 1', lang: 'ts', meta: '', line: 1 })
   })
 
   test('extracts typescript blocks', () => {
@@ -14,12 +14,12 @@ describe('parseBlocks', () => {
 
   test('extracts tsx blocks', () => {
     const blocks = parseBlocks('```tsx\n<div />\n```')
-    expect(blocks[0].lang).toBe('tsx')
+    expect(blocks[0]!.lang).toBe('tsx')
   })
 
   test('extracts jsx blocks', () => {
     const blocks = parseBlocks('```jsx\n<div />\n```')
-    expect(blocks[0].lang).toBe('jsx')
+    expect(blocks[0]!.lang).toBe('jsx')
   })
 
   test('ignores non-ts blocks', () => {
@@ -34,15 +34,15 @@ describe('parseBlocks', () => {
 
   test('preserves meta string verbatim', () => {
     const [b] = parseBlocks('```ts should throw\nthrow new Error()\n```')
-    expect(b.meta).toBe('should throw')
+    expect(b!.meta).toBe('should throw')
   })
 
   test('handles multiple blocks', () => {
     const md = '```ts\nconst a = 1\n```\n\n```tsx\n<p />\n```'
     const blocks = parseBlocks(md)
     expect(blocks).toHaveLength(2)
-    expect(blocks[0].lang).toBe('ts')
-    expect(blocks[1].lang).toBe('tsx')
+    expect(blocks[0]!.lang).toBe('ts')
+    expect(blocks[1]!.lang).toBe('tsx')
   })
 
   test('works on MDX prose (treats it as markdown)', () => {

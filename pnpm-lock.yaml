@@ -6,6 +6,12 @@ settings:
 
 catalogs:
   default:
+    '@types/node':
+      specifier: ^24.12.2
+      version: 24.12.2
+    typescript:
+      specifier: npm:@typescript/native-preview@7.0.0-dev.20260427.1
+      version: 7.0.0-dev.20260427.1
     vitest:
       specifier: ^4.1.5
       version: 4.1.5
@@ -18,7 +24,7 @@ importers:
         specifier: ^10.0.1
         version: 10.0.1(eslint@10.2.1(jiti@2.6.1))
       '@types/node':
-        specifier: ^24.12.2
+        specifier: 'catalog:'
         version: 24.12.2
       eslint:
         specifier: ^10.2.1
@@ -28,16 +34,16 @@ importers:
         version: 17.5.0
       knip:
         specifier: ^6.7.0
-        version: 6.7.0(@emnapi/core@1.9.2)(@emnapi/runtime@1.9.2)
+        version: 6.7.0(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)
       tsx:
         specifier: ^4.21.0
         version: 4.21.0
       typescript:
-        specifier: ~6.0.2
-        version: 6.0.3
+        specifier: 'catalog:'
+        version: '@typescript/native-preview@7.0.0-dev.20260427.1'
       typescript-eslint:
         specifier: ^8.58.2
-        version: 8.59.1(eslint@10.2.1(jiti@2.6.1))(typescript@6.0.3)
+        version: 8.59.1(@typescript/native-preview@7.0.0-dev.20260427.1)(eslint@10.2.1(jiti@2.6.1))
       vitest:
         specifier: ^4.1.5
         version: 4.1.5(@types/node@24.12.2)(vite@8.0.10(@types/node@24.12.2)(esbuild@0.27.7)(jiti@2.6.1)(tsx@4.21.0)(yaml@2.8.3))
@@ -759,6 +765,53 @@ packages:
     resolution: {integrity: sha512-LdDNl6C5iJExcM0Yh0PwAIBb9PrSiCsWamF/JyEZawm3kFDnRoaq3LGE4bpyRao/fWeGKKyw7icx0YxrLFC5Cg==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
+  '@typescript/native-preview-darwin-arm64@7.0.0-dev.20260427.1':
+    resolution: {integrity: sha512-8zxaaEgIpHSadCoCAvUsp0C6WDH0dUXix7Mm7IBjh+EhSxI2clhXwPZTqgtDqbowXHeE82BG5mBbQx+CXDwGOQ==}
+    engines: {node: '>=16.20.0'}
+    cpu: [arm64]
+    os: [darwin]
+
+  '@typescript/native-preview-darwin-x64@7.0.0-dev.20260427.1':
+    resolution: {integrity: sha512-6MjekGfajPtny/bBoBYJ+8dTOlgw6nhSSgJ3Us4R/4L8R90ll803Krz+iz907r1SnYeK5eWubDMV/p1ryLNXkQ==}
+    engines: {node: '>=16.20.0'}
+    cpu: [x64]
+    os: [darwin]
+
+  '@typescript/native-preview-linux-arm64@7.0.0-dev.20260427.1':
+    resolution: {integrity: sha512-a1yG/vrLaN3dORvaMuNqXz5jcTaTEPBfhmq77vzqRn8As7EdqxtizPosfxB9K1s7PEB8NeGQKqHEQroPUCsPFg==}
+    engines: {node: '>=16.20.0'}
+    cpu: [arm64]
+    os: [linux]
+
+  '@typescript/native-preview-linux-arm@7.0.0-dev.20260427.1':
+    resolution: {integrity: sha512-3bhv/NxU9FHIN3MSmoplIAkIHF62mlF9l5XooAFawwj8yscvPZih/m5fkYIiP5qGri3828XwGyT1Cksaft6FWQ==}
+    engines: {node: '>=16.20.0'}
+    cpu: [arm]
+    os: [linux]
+
+  '@typescript/native-preview-linux-x64@7.0.0-dev.20260427.1':
+    resolution: {integrity: sha512-lqaA9oF9ZSw1jn87+Ncxo0Sf0d65eVXMjAD0z44ne7QKFRgWd+QpvK4AXAG4lxnFR+XdndWlVm6O1/tdvcG7xQ==}
+    engines: {node: '>=16.20.0'}
+    cpu: [x64]
+    os: [linux]
+
+  '@typescript/native-preview-win32-arm64@7.0.0-dev.20260427.1':
+    resolution: {integrity: sha512-ZGXRDC0WPVK/Ky2fZRhy2EcNmdHg22biVYWcWgOUK5tCbJd/KJs3VXk758gn0UbFHEQAR5d7dsvDucCCjZkWpA==}
+    engines: {node: '>=16.20.0'}
+    cpu: [arm64]
+    os: [win32]
+
+  '@typescript/native-preview-win32-x64@7.0.0-dev.20260427.1':
+    resolution: {integrity: sha512-Ut4Hncq1IuSeNIfcPs1s719j8H3ZA+ogsJ53W3s/Wy1UF5BIhu5Hkspdc7TzGgJgYqGJKo/+pr4vsRnbBPdWgQ==}
+    engines: {node: '>=16.20.0'}
+    cpu: [x64]
+    os: [win32]
+
+  '@typescript/native-preview@7.0.0-dev.20260427.1':
+    resolution: {integrity: sha512-g6L7hed1Y2OGwAzZ+vXoGSvtJUdWUtTqtsn/16+UjYbu3+6pol0cggdWj26SFxI41R+jLfnT2+JGtoXRBdH+RQ==}
+    engines: {node: '>=16.20.0'}
+    hasBin: true
+
   '@vitest/expect@4.1.5':
     resolution: {integrity: sha512-PWBaRY5JoKuRnHlUHfpV/KohFylaDZTupcXN1H9vYryNLOnitSw60Mw9IAE2r67NbwwzBw/Cc/8q9BK3kIX8Kw==}
 
@@ -1361,11 +1414,6 @@ packages:
       eslint: ^8.57.0 || ^9.0.0 || ^10.0.0
       typescript: '>=4.8.4 <6.1.0'
 
-  typescript@6.0.3:
-    resolution: {integrity: sha512-y2TvuxSZPDyQakkFRPZHKFm+KKVqIisdg9/CZwm9ftvKXLP8NRWj38/ODjNbr43SsoXqNuAisEf1GdCxqWcdBw==}
-    engines: {node: '>=14.17'}
-    hasBin: true
-
   unbash@3.0.0:
     resolution: {integrity: sha512-FeFPZ/WFT0mbRCuydiZzpPFlrYN8ZUpphQKoq4EeElVIYjYyGzPMxQR/simUwCOJIyVhpFk4RbtyO7RuMpMnHA==}
     engines: {node: '>=14'}
@@ -1801,9 +1849,9 @@ snapshots:
   '@oxc-resolver/binding-openharmony-arm64@11.19.1':
     optional: true
 
-  '@oxc-resolver/binding-wasm32-wasi@11.19.1(@emnapi/core@1.9.2)(@emnapi/runtime@1.9.2)':
+  '@oxc-resolver/binding-wasm32-wasi@11.19.1(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)':
     dependencies:
-      '@napi-rs/wasm-runtime': 1.1.4(@emnapi/core@1.9.2)(@emnapi/runtime@1.9.2)
+      '@napi-rs/wasm-runtime': 1.1.4(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)
     transitivePeerDependencies:
       - '@emnapi/core'
       - '@emnapi/runtime'
@@ -1905,40 +1953,40 @@ snapshots:
 
   '@types/unist@3.0.3': {}
 
-  '@typescript-eslint/eslint-plugin@8.59.1(@typescript-eslint/parser@8.59.1(eslint@10.2.1(jiti@2.6.1))(typescript@6.0.3))(eslint@10.2.1(jiti@2.6.1))(typescript@6.0.3)':
+  '@typescript-eslint/eslint-plugin@8.59.1(@typescript-eslint/parser@8.59.1(@typescript/native-preview@7.0.0-dev.20260427.1)(eslint@10.2.1(jiti@2.6.1)))(@typescript/native-preview@7.0.0-dev.20260427.1)(eslint@10.2.1(jiti@2.6.1))':
     dependencies:
       '@eslint-community/regexpp': 4.12.2
-      '@typescript-eslint/parser': 8.59.1(eslint@10.2.1(jiti@2.6.1))(typescript@6.0.3)
+      '@typescript-eslint/parser': 8.59.1(@typescript/native-preview@7.0.0-dev.20260427.1)(eslint@10.2.1(jiti@2.6.1))
       '@typescript-eslint/scope-manager': 8.59.1
-      '@typescript-eslint/type-utils': 8.59.1(eslint@10.2.1(jiti@2.6.1))(typescript@6.0.3)
-      '@typescript-eslint/utils': 8.59.1(eslint@10.2.1(jiti@2.6.1))(typescript@6.0.3)
+      '@typescript-eslint/type-utils': 8.59.1(@typescript/native-preview@7.0.0-dev.20260427.1)(eslint@10.2.1(jiti@2.6.1))
+      '@typescript-eslint/utils': 8.59.1(@typescript/native-preview@7.0.0-dev.20260427.1)(eslint@10.2.1(jiti@2.6.1))
       '@typescript-eslint/visitor-keys': 8.59.1
       eslint: 10.2.1(jiti@2.6.1)
       ignore: 7.0.5
       natural-compare: 1.4.0
-      ts-api-utils: 2.5.0(typescript@6.0.3)
-      typescript: 6.0.3
+      ts-api-utils: 2.5.0(@typescript/native-preview@7.0.0-dev.20260427.1)
+      typescript: '@typescript/native-preview@7.0.0-dev.20260427.1'
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/parser@8.59.1(eslint@10.2.1(jiti@2.6.1))(typescript@6.0.3)':
+  '@typescript-eslint/parser@8.59.1(@typescript/native-preview@7.0.0-dev.20260427.1)(eslint@10.2.1(jiti@2.6.1))':
     dependencies:
       '@typescript-eslint/scope-manager': 8.59.1
       '@typescript-eslint/types': 8.59.1
-      '@typescript-eslint/typescript-estree': 8.59.1(typescript@6.0.3)
+      '@typescript-eslint/typescript-estree': 8.59.1(@typescript/native-preview@7.0.0-dev.20260427.1)
       '@typescript-eslint/visitor-keys': 8.59.1
       debug: 4.4.3
       eslint: 10.2.1(jiti@2.6.1)
-      typescript: 6.0.3
+      typescript: '@typescript/native-preview@7.0.0-dev.20260427.1'
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/project-service@8.59.1(typescript@6.0.3)':
+  '@typescript-eslint/project-service@8.59.1(@typescript/native-preview@7.0.0-dev.20260427.1)':
     dependencies:
-      '@typescript-eslint/tsconfig-utils': 8.59.1(typescript@6.0.3)
+      '@typescript-eslint/tsconfig-utils': 8.59.1(@typescript/native-preview@7.0.0-dev.20260427.1)
       '@typescript-eslint/types': 8.59.1
       debug: 4.4.3
-      typescript: 6.0.3
+      typescript: '@typescript/native-preview@7.0.0-dev.20260427.1'
     transitivePeerDependencies:
       - supports-color
 
@@ -1947,47 +1995,47 @@ snapshots:
       '@typescript-eslint/types': 8.59.1
       '@typescript-eslint/visitor-keys': 8.59.1
 
-  '@typescript-eslint/tsconfig-utils@8.59.1(typescript@6.0.3)':
+  '@typescript-eslint/tsconfig-utils@8.59.1(@typescript/native-preview@7.0.0-dev.20260427.1)':
     dependencies:
-      typescript: 6.0.3
+      typescript: '@typescript/native-preview@7.0.0-dev.20260427.1'
 
-  '@typescript-eslint/type-utils@8.59.1(eslint@10.2.1(jiti@2.6.1))(typescript@6.0.3)':
+  '@typescript-eslint/type-utils@8.59.1(@typescript/native-preview@7.0.0-dev.20260427.1)(eslint@10.2.1(jiti@2.6.1))':
     dependencies:
       '@typescript-eslint/types': 8.59.1
-      '@typescript-eslint/typescript-estree': 8.59.1(typescript@6.0.3)
-      '@typescript-eslint/utils': 8.59.1(eslint@10.2.1(jiti@2.6.1))(typescript@6.0.3)
+      '@typescript-eslint/typescript-estree': 8.59.1(@typescript/native-preview@7.0.0-dev.20260427.1)
+      '@typescript-eslint/utils': 8.59.1(@typescript/native-preview@7.0.0-dev.20260427.1)(eslint@10.2.1(jiti@2.6.1))
       debug: 4.4.3
       eslint: 10.2.1(jiti@2.6.1)
-      ts-api-utils: 2.5.0(typescript@6.0.3)
-      typescript: 6.0.3
+      ts-api-utils: 2.5.0(@typescript/native-preview@7.0.0-dev.20260427.1)
+      typescript: '@typescript/native-preview@7.0.0-dev.20260427.1'
     transitivePeerDependencies:
       - supports-color
 
   '@typescript-eslint/types@8.59.1': {}
 
-  '@typescript-eslint/typescript-estree@8.59.1(typescript@6.0.3)':
+  '@typescript-eslint/typescript-estree@8.59.1(@typescript/native-preview@7.0.0-dev.20260427.1)':
     dependencies:
-      '@typescript-eslint/project-service': 8.59.1(typescript@6.0.3)
-      '@typescript-eslint/tsconfig-utils': 8.59.1(typescript@6.0.3)
+      '@typescript-eslint/project-service': 8.59.1(@typescript/native-preview@7.0.0-dev.20260427.1)
+      '@typescript-eslint/tsconfig-utils': 8.59.1(@typescript/native-preview@7.0.0-dev.20260427.1)
       '@typescript-eslint/types': 8.59.1
       '@typescript-eslint/visitor-keys': 8.59.1
       debug: 4.4.3
       minimatch: 10.2.5
       semver: 7.7.4
       tinyglobby: 0.2.16
-      ts-api-utils: 2.5.0(typescript@6.0.3)
-      typescript: 6.0.3
+      ts-api-utils: 2.5.0(@typescript/native-preview@7.0.0-dev.20260427.1)
+      typescript: '@typescript/native-preview@7.0.0-dev.20260427.1'
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/utils@8.59.1(eslint@10.2.1(jiti@2.6.1))(typescript@6.0.3)':
+  '@typescript-eslint/utils@8.59.1(@typescript/native-preview@7.0.0-dev.20260427.1)(eslint@10.2.1(jiti@2.6.1))':
     dependencies:
       '@eslint-community/eslint-utils': 4.9.1(eslint@10.2.1(jiti@2.6.1))
       '@typescript-eslint/scope-manager': 8.59.1
       '@typescript-eslint/types': 8.59.1
-      '@typescript-eslint/typescript-estree': 8.59.1(typescript@6.0.3)
+      '@typescript-eslint/typescript-estree': 8.59.1(@typescript/native-preview@7.0.0-dev.20260427.1)
       eslint: 10.2.1(jiti@2.6.1)
-      typescript: 6.0.3
+      typescript: '@typescript/native-preview@7.0.0-dev.20260427.1'
     transitivePeerDependencies:
       - supports-color
 
@@ -1995,6 +2043,37 @@ snapshots:
     dependencies:
       '@typescript-eslint/types': 8.59.1
       eslint-visitor-keys: 5.0.1
+
+  '@typescript/native-preview-darwin-arm64@7.0.0-dev.20260427.1':
+    optional: true
+
+  '@typescript/native-preview-darwin-x64@7.0.0-dev.20260427.1':
+    optional: true
+
+  '@typescript/native-preview-linux-arm64@7.0.0-dev.20260427.1':
+    optional: true
+
+  '@typescript/native-preview-linux-arm@7.0.0-dev.20260427.1':
+    optional: true
+
+  '@typescript/native-preview-linux-x64@7.0.0-dev.20260427.1':
+    optional: true
+
+  '@typescript/native-preview-win32-arm64@7.0.0-dev.20260427.1':
+    optional: true
+
+  '@typescript/native-preview-win32-x64@7.0.0-dev.20260427.1':
+    optional: true
+
+  '@typescript/native-preview@7.0.0-dev.20260427.1':
+    optionalDependencies:
+      '@typescript/native-preview-darwin-arm64': 7.0.0-dev.20260427.1
+      '@typescript/native-preview-darwin-x64': 7.0.0-dev.20260427.1
+      '@typescript/native-preview-linux-arm': 7.0.0-dev.20260427.1
+      '@typescript/native-preview-linux-arm64': 7.0.0-dev.20260427.1
+      '@typescript/native-preview-linux-x64': 7.0.0-dev.20260427.1
+      '@typescript/native-preview-win32-arm64': 7.0.0-dev.20260427.1
+      '@typescript/native-preview-win32-x64': 7.0.0-dev.20260427.1
 
   '@vitest/expect@4.1.5':
     dependencies:
@@ -2277,7 +2356,7 @@ snapshots:
     dependencies:
       json-buffer: 3.0.1
 
-  knip@6.7.0(@emnapi/core@1.9.2)(@emnapi/runtime@1.9.2):
+  knip@6.7.0(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0):
     dependencies:
       fdir: 6.5.0(picomatch@4.0.4)
       formatly: 0.3.0
@@ -2285,7 +2364,7 @@ snapshots:
       jiti: 2.6.1
       minimist: 1.2.8
       oxc-parser: 0.127.0
-      oxc-resolver: 11.19.1(@emnapi/core@1.9.2)(@emnapi/runtime@1.9.2)
+      oxc-resolver: 11.19.1(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)
       picomatch: 4.0.4
       smol-toml: 1.6.1
       strip-json-comments: 5.0.3
@@ -2580,7 +2659,7 @@ snapshots:
       '@oxc-parser/binding-win32-ia32-msvc': 0.127.0
       '@oxc-parser/binding-win32-x64-msvc': 0.127.0
 
-  oxc-resolver@11.19.1(@emnapi/core@1.9.2)(@emnapi/runtime@1.9.2):
+  oxc-resolver@11.19.1(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0):
     optionalDependencies:
       '@oxc-resolver/binding-android-arm-eabi': 11.19.1
       '@oxc-resolver/binding-android-arm64': 11.19.1
@@ -2598,7 +2677,7 @@ snapshots:
       '@oxc-resolver/binding-linux-x64-gnu': 11.19.1
       '@oxc-resolver/binding-linux-x64-musl': 11.19.1
       '@oxc-resolver/binding-openharmony-arm64': 11.19.1
-      '@oxc-resolver/binding-wasm32-wasi': 11.19.1(@emnapi/core@1.9.2)(@emnapi/runtime@1.9.2)
+      '@oxc-resolver/binding-wasm32-wasi': 11.19.1(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)
       '@oxc-resolver/binding-win32-arm64-msvc': 11.19.1
       '@oxc-resolver/binding-win32-ia32-msvc': 11.19.1
       '@oxc-resolver/binding-win32-x64-msvc': 11.19.1
@@ -2716,9 +2795,9 @@ snapshots:
 
   trough@2.2.0: {}
 
-  ts-api-utils@2.5.0(typescript@6.0.3):
+  ts-api-utils@2.5.0(@typescript/native-preview@7.0.0-dev.20260427.1):
     dependencies:
-      typescript: 6.0.3
+      typescript: '@typescript/native-preview@7.0.0-dev.20260427.1'
 
   tslib@2.8.1:
     optional: true
@@ -2736,18 +2815,16 @@ snapshots:
 
   type-flag@4.2.0: {}
 
-  typescript-eslint@8.59.1(eslint@10.2.1(jiti@2.6.1))(typescript@6.0.3):
+  typescript-eslint@8.59.1(@typescript/native-preview@7.0.0-dev.20260427.1)(eslint@10.2.1(jiti@2.6.1)):
     dependencies:
-      '@typescript-eslint/eslint-plugin': 8.59.1(@typescript-eslint/parser@8.59.1(eslint@10.2.1(jiti@2.6.1))(typescript@6.0.3))(eslint@10.2.1(jiti@2.6.1))(typescript@6.0.3)
-      '@typescript-eslint/parser': 8.59.1(eslint@10.2.1(jiti@2.6.1))(typescript@6.0.3)
-      '@typescript-eslint/typescript-estree': 8.59.1(typescript@6.0.3)
-      '@typescript-eslint/utils': 8.59.1(eslint@10.2.1(jiti@2.6.1))(typescript@6.0.3)
+      '@typescript-eslint/eslint-plugin': 8.59.1(@typescript-eslint/parser@8.59.1(@typescript/native-preview@7.0.0-dev.20260427.1)(eslint@10.2.1(jiti@2.6.1)))(@typescript/native-preview@7.0.0-dev.20260427.1)(eslint@10.2.1(jiti@2.6.1))
+      '@typescript-eslint/parser': 8.59.1(@typescript/native-preview@7.0.0-dev.20260427.1)(eslint@10.2.1(jiti@2.6.1))
+      '@typescript-eslint/typescript-estree': 8.59.1(@typescript/native-preview@7.0.0-dev.20260427.1)
+      '@typescript-eslint/utils': 8.59.1(@typescript/native-preview@7.0.0-dev.20260427.1)(eslint@10.2.1(jiti@2.6.1))
       eslint: 10.2.1(jiti@2.6.1)
-      typescript: 6.0.3
+      typescript: '@typescript/native-preview@7.0.0-dev.20260427.1'
     transitivePeerDependencies:
       - supports-color
-
-  typescript@6.0.3: {}
 
   unbash@3.0.0: {}
 

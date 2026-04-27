@@ -12,6 +12,7 @@
     "vitest": "catalog:"
   },
   "scripts": {
-    "test": "vitest run"
+    "test": "vitest run",
+    "typecheck": "tsgo"
   }
 }
