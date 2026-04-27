@@ -7,7 +7,6 @@
     "lint": "eslint .",
     "test:packages": "pnpm -r run test",
     "test:docs": "tsx packages/cli/src/index.ts test",
-    "install-cli": "tsx scripts/install.ts",
     "knip": "knip"
   },
   "engines": {
