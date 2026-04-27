@@ -10,6 +10,10 @@
     "install-cli": "tsx scripts/install.ts",
     "knip": "knip"
   },
+  "engines": {
+    "node": ">=24",
+    "pnpm": ">=10"
+  },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@types/node": "^24.12.2",
