@@ -4,12 +4,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "ddt test"
-  },
-  "dependencies": {
-    "ddtds": "workspace:*"
+    "test": "vitest"
   },
   "devDependencies": {
+    "@ddtds/vitest": "workspace:*",
     "vitest": "catalog:"
   }
 }

@@ -4,12 +4,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "ddt test"
-  },
-  "dependencies": {
-    "ddtds": "workspace:*"
+    "test": "vitest"
   },
   "devDependencies": {
+    "@ddtds/vitest": "workspace:*",
     "@testing-library/jest-dom": "^6.0.0",
     "@testing-library/react": "^16.0.0",
     "jsdom": "*",

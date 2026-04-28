@@ -6,11 +6,11 @@
   },
   "type": "module",
   "scripts": {
+    "test": "vitest run",
     "typecheck": "tsgo"
   },
   "dependencies": {
     "@ddtds/core": "workspace:*",
-    "@ddtds/vitest": "workspace:*",
     "cleye": "^2.6.0"
   },
   "devDependencies": {
