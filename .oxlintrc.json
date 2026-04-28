@@ -10,16 +10,7 @@
   "options": {
     "typeAware": true
   },
-  "plugins": [
-    "eslint",
-    "typescript",
-    "unicorn",
-    "vitest",
-    "import",
-    "node",
-    "promise",
-    "oxc"
-  ],
+  "plugins": ["eslint", "typescript", "unicorn", "vitest", "import", "node", "promise", "oxc"],
   "categories": {
     "correctness": "error",
     "suspicious": "warn",

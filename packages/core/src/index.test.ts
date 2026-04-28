@@ -165,7 +165,7 @@ describe("generateBlockFile: annotations", () => {
 
 describe("generate", () => {
   test("returns 0 and logs when no docs are found", () => {
-    const log = vi.fn();
+    const log = vi.fn<() => void>();
     expect(generate("/docs", "__doctests__", { findDocs: () => [], log })).toBe(0);
     expect(log).toHaveBeenCalledWith("No .md or .mdx files found under /docs");
   });
@@ -176,8 +176,8 @@ describe("generate", () => {
       findDocs: () => ["/repo/guide.md"],
       readFile: () => "```ts\nconst x = 1\n```",
       writeFile: (path, content) => writes.push({ path, content }),
-      clearDir: vi.fn(),
-      log: vi.fn(),
+      clearDir: vi.fn<() => void>(),
+      log: vi.fn<() => void>(),
     });
 
     expect(total).toBe(1);

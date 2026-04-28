@@ -23,7 +23,7 @@ const buildCmd = command(
   },
 );
 
-cli({
+void cli({
   name: "ddt",
   commands: [buildCmd],
 });

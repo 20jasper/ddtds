@@ -3,7 +3,7 @@ import { generate } from "./index";
 
 describe("generate", () => {
   test("returns 0 and logs when no docs are found", () => {
-    const log = vi.fn();
+    const log = vi.fn<() => void>();
     const total = generate("/docs", "__doctests__", {
       findDocs: () => [],
       log,
@@ -22,8 +22,8 @@ describe("generate", () => {
         return "# prose only";
       },
       writeFile: (path, content) => writes.push({ path, content }),
-      clearDir: vi.fn(),
-      log: vi.fn(),
+      clearDir: vi.fn<() => void>(),
+      log: vi.fn<() => void>(),
     });
 
     expect(total).toBe(1);
