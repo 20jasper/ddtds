@@ -1,0 +1,28 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "ignorePatterns": ["dist", "**/__doctests__"],
+  "env": {
+    "browser": true,
+    "node": true,
+    "es2026": true,
+    "vitest": true
+  },
+  "options": {
+    "typeAware": true
+  },
+  "plugins": [
+    "eslint",
+    "typescript",
+    "unicorn",
+    "vitest",
+    "import",
+    "node",
+    "promise",
+    "oxc"
+  ],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "warn",
+    "perf": "warn"
+  }
+}

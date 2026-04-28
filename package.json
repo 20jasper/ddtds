@@ -5,23 +5,23 @@
   "type": "module",
   "scripts": {
     "format": "oxfmt",
-    "lint": "eslint .",
+    "format:check": "oxfmt --check",
+    "lint": "oxlint .",
+    "lint:fix": "oxlint . --fix",
     "typecheck": "pnpm -r run typecheck",
     "test:packages": "pnpm -r run test",
     "test:examples": "pnpm --filter '@ddtds/example-*' test",
     "knip": "knip"
   },
   "devDependencies": {
-    "@eslint/js": "^10.0.1",
     "@types/node": "catalog:",
-    "eslint": "^10.2.1",
-    "globals": "^17.5.0",
     "knip": "^6.7.0",
     "lefthook": "^2.1.6",
     "oxfmt": "^0.47.0",
+    "oxlint": "^1.62.0",
+    "oxlint-tsgolint": "^0.22.1",
     "tsx": "^4.21.0",
     "typescript": "catalog:",
-    "typescript-eslint": "^8.58.2",
     "vitest": "^4.1.5"
   },
   "engines": {
