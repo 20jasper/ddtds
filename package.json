@@ -9,7 +9,7 @@
     "lint": "oxlint .",
     "lint:fix": "oxlint . --fix",
     "typecheck": "pnpm -r run typecheck",
-    "test:packages": "pnpm -r run test",
+    "test:packages": "pnpm --filter './packages/*' run test",
     "test:examples": "pnpm --filter '@ddtds/example-*' test",
     "knip": "knip"
   },
