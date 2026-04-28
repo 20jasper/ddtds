@@ -114,6 +114,9 @@ importers:
       remark:
         specifier: ^15.0.1
         version: 15.0.1
+      tinyglobby:
+        specifier: ^0.2.16
+        version: 0.2.16
       unist-util-visit:
         specifier: ^5.1.0
         version: 5.1.0

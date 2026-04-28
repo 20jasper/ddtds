@@ -1,53 +1,52 @@
 import { describe, test, expect } from "vitest";
-import type { DocBlock } from "./index";
-import { parseBlocks, outputExtension, stripHidden, generateTestFile } from "./index";
+import { CodeBlock, parseCodeFences, stripHidden, generateTestFile } from "./index";
 
 describe("parseBlocks", () => {
   test("extracts ts blocks", () => {
-    const blocks = parseBlocks("```ts\nconst x = 1\n```");
+    const blocks = parseCodeFences("```ts\nconst x = 1\n```");
     expect(blocks).toHaveLength(1);
-    expect(blocks[0]!).toMatchObject({ code: "const x = 1", lang: "ts", meta: "", line: 1 });
+    expect(blocks[0]!).toMatchObject({ code: "const x = 1", lang: "ts", line: 1 });
   });
 
   test("extracts typescript blocks", () => {
-    expect(parseBlocks("```typescript\nconst x = 1\n```")).toHaveLength(1);
+    expect(parseCodeFences("```typescript\nconst x = 1\n```")).toHaveLength(1);
   });
 
   test("extracts tsx blocks", () => {
-    const blocks = parseBlocks("```tsx\n<div />\n```");
+    const blocks = parseCodeFences("```tsx\n<div />\n```");
     expect(blocks[0]!.lang).toBe("tsx");
   });
 
   test("extracts jsx blocks", () => {
-    const blocks = parseBlocks("```jsx\n<div />\n```");
+    const blocks = parseCodeFences("```jsx\n<div />\n```");
     expect(blocks[0]!.lang).toBe("jsx");
   });
 
   test("extracts js blocks", () => {
-    expect(parseBlocks("```js\nconst x = 1\n```")).toHaveLength(1);
+    expect(parseCodeFences("```js\nconst x = 1\n```")).toHaveLength(1);
   });
 
   test("extracts javascript blocks", () => {
-    expect(parseBlocks("```javascript\nconst x = 1\n```")).toHaveLength(1);
+    expect(parseCodeFences("```javascript\nconst x = 1\n```")).toHaveLength(1);
   });
 
   test("ignores unsupported langs", () => {
-    expect(parseBlocks("```python\nx = 1\n```")).toHaveLength(0);
+    expect(parseCodeFences("```python\nx = 1\n```")).toHaveLength(0);
   });
 
   test("skips blocks annotated skip", () => {
-    expect(parseBlocks("```ts skip\nconst x = 1\n```")).toHaveLength(0);
-    expect(parseBlocks("```tsx skip\n<div />\n```")).toHaveLength(0);
+    expect(parseCodeFences("```ts skip\nconst x = 1\n```")).toHaveLength(0);
+    expect(parseCodeFences("```tsx skip\n<div />\n```")).toHaveLength(0);
   });
 
   test("preserves meta string verbatim", () => {
-    const [b] = parseBlocks("```ts should throw\nthrow new Error()\n```");
-    expect(b!.meta).toBe("should throw");
+    const [b] = parseCodeFences("```ts should throw\nthrow new Error()\n```");
+    expect(b!.shouldThrow()).toBe(true);
   });
 
   test("handles multiple blocks", () => {
     const md = "```ts\nconst a = 1\n```\n\n```tsx\n<p />\n```";
-    const blocks = parseBlocks(md);
+    const blocks = parseCodeFences(md);
     expect(blocks).toHaveLength(2);
     expect(blocks[0]!.lang).toBe("ts");
     expect(blocks[1]!.lang).toBe("tsx");
@@ -55,27 +54,21 @@ describe("parseBlocks", () => {
 
   test("works on MDX prose (treats it as markdown)", () => {
     const mdx = "# Heading\n\nSome prose with JSX <Component />.\n\n```tsx\n<div />\n```";
-    expect(parseBlocks(mdx)).toHaveLength(1);
+    expect(parseCodeFences(mdx)).toHaveLength(1);
   });
 });
 
-describe("outputExtension", () => {
-  const block = (lang: string) => ({ code: "", lang, meta: "", line: 1 });
-
-  test("returns ts for ts-only blocks", () => {
-    expect(outputExtension([block("ts"), block("typescript")])).toBe("ts");
+describe("CodeBlock.outputExtension", () => {
+  test("returns ts for ts block", () => {
+    expect(new CodeBlock("", "ts", "", 1).outputExtension).toBe("ts");
   });
 
-  test("returns tsx when any block is tsx", () => {
-    expect(outputExtension([block("ts"), block("tsx")])).toBe("tsx");
+  test("returns tsx for tsx block", () => {
+    expect(new CodeBlock("", "tsx", "", 1).outputExtension).toBe("tsx");
   });
 
-  test("returns tsx when any block is jsx", () => {
-    expect(outputExtension([block("jsx")])).toBe("tsx");
-  });
-
-  test("returns ts for empty list", () => {
-    expect(outputExtension([])).toBe("ts");
+  test("returns tsx for jsx block", () => {
+    expect(new CodeBlock("", "jsx", "", 1).outputExtension).toBe("tsx");
   });
 });
 
@@ -101,8 +94,8 @@ describe("stripHidden", () => {
   });
 });
 
-function block(code: string, meta = "", line = 1, lang = "ts"): DocBlock {
-  return { code, lang, meta, line };
+function block(code: string, meta = "", line = 1, lang = "ts"): CodeBlock {
+  return new CodeBlock(code, lang, meta, line);
 }
 
 describe("generateTestFile: header", () => {

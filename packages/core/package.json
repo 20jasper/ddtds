@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "remark": "^15.0.1",
+    "tinyglobby": "^0.2.16",
     "unist-util-visit": "^5.1.0"
   },
   "devDependencies": {
