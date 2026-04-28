@@ -6,7 +6,6 @@
     ".": "./src/index.ts"
   },
   "scripts": {
-    "test": "vitest run",
     "typecheck": "tsgo"
   },
   "dependencies": {
