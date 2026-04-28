@@ -12,6 +12,15 @@ runs your code blocks as tests with your framework of choice
 
 Takes advantage of existing test config instead of a separate compiler config or test config
 
+## Packages
+
+- `./packages` has ddtdts library and cli code
+  - core has agnostic logic for parsing codefences
+  - vitest is vitest specific logic and plugin
+  - cli is light glue to run it all
+  - e2e is tests
+- `./examples` has react, typescript, javascript examples
+
 ## Alternatives
 
 TODO verify these claims and also find more alternatives

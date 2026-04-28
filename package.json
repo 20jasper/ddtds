@@ -8,7 +8,7 @@
     "lint": "eslint .",
     "typecheck": "pnpm -r run typecheck",
     "test:packages": "pnpm -r run test",
-    "test:docs": "tsx packages/cli/src/index.ts test",
+    "test:examples": "pnpm --filter '@ddtds/example-*' test",
     "knip": "knip"
   },
   "devDependencies": {

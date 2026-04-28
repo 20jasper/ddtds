@@ -8,7 +8,7 @@ export interface DocBlock {
   line: number;
 }
 
-const SUPPORTED_LANGS = new Set(["ts", "typescript", "tsx", "jsx"]);
+const SUPPORTED_LANGS = new Set(["ts", "typescript", "tsx", "jsx", "js", "javascript"]);
 
 export function parseBlocks(source: string): DocBlock[] {
   const tree = remark().parse(source);

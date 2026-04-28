@@ -22,8 +22,15 @@ describe("parseBlocks", () => {
     expect(blocks[0]!.lang).toBe("jsx");
   });
 
-  test("ignores non-ts blocks", () => {
-    expect(parseBlocks("```js\nconst x = 1\n```")).toHaveLength(0);
+  test("extracts js blocks", () => {
+    expect(parseBlocks("```js\nconst x = 1\n```")).toHaveLength(1);
+  });
+
+  test("extracts javascript blocks", () => {
+    expect(parseBlocks("```javascript\nconst x = 1\n```")).toHaveLength(1);
+  });
+
+  test("ignores unsupported langs", () => {
     expect(parseBlocks("```python\nx = 1\n```")).toHaveLength(0);
   });
 
