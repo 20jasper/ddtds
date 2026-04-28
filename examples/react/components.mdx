@@ -1,12 +1,9 @@
 # Component Examples
 
 Blocks tagged `tsx` are run as tests with `@testing-library/react`.
-`render`, `screen`, and `fireEvent` are available in every block.
+Use `// hidden import` to bring in testing utilities without cluttering the rendered docs.
 
 ## Rendering
-
-Show the import once for context — `// hidden` lines appear in the docs but are
-stripped from the generated test (the generator adds them to the file header):
 
 ```tsx
 // hidden import { render, screen } from '@testing-library/react'
@@ -20,6 +17,7 @@ expect(screen.getByText("Hello, world!")).toBeInTheDocument();
 Query by accessible role:
 
 ```tsx
+// hidden import { render, screen } from '@testing-library/react'
 function SaveButton() {
   return <button type="submit">Save</button>;
 }
@@ -33,6 +31,7 @@ expect(screen.getByRole("button", { name: "Save" })).toBeInTheDocument();
 state in the DOM, so no React state is needed for a basic toggle assertion:
 
 ```tsx
+// hidden import { render, screen, fireEvent } from '@testing-library/react'
 render(<input type="checkbox" aria-label="accept" />);
 const box = screen.getByRole("checkbox", { name: "accept" });
 expect(box).not.toBeChecked();

@@ -1,25 +1,34 @@
 import type { CodeBlock } from "./blocks.ts";
-import { stripHidden } from "./blocks.ts";
 
+// Matches static import statements (including multiline specifiers)
 const IMPORT_RE =
   /^import\s+([\s\S]*?)\s+from\s+(['"][^'"]+['"])\s*;?\n?|^import\s+(['"][^'"]+['"])\s*;?\n?/gm;
 
-function convertImportsToDynamic(code: string): string {
-  return code.replace(IMPORT_RE, (_, specifiers, from, sideEffect) => {
-    if (sideEffect) {
-      return `await import(${sideEffect});\n`;
-    }
-    const src = from.trim();
-    const s = specifiers.trim();
-    if (s.startsWith("* as ")) {
-      const ns = s.slice(5).trim();
-      return `const ${ns} = await import(${src});\n`;
-    }
-    if (s.startsWith("{")) {
-      return `const ${s} = await import(${src});\n`;
-    }
-    return `const { default: ${s} } = await import(${src});\n`;
+function splitCode(code: string): { imports: string[]; body: string } {
+  const hiddenImports: string[] = [];
+
+  const withoutHidden = code
+    .split("\n")
+    .filter((line) => {
+      const t = line.trimStart();
+      if (t.startsWith("// hidden import ")) {
+        hiddenImports.push(t.slice("// hidden ".length).trimEnd());
+        return false;
+      }
+      return !t.startsWith("// hidden");
+    })
+    .join("\n");
+
+  const visibleImports: string[] = [];
+  const body = withoutHidden.replace(IMPORT_RE, (match) => {
+    visibleImports.push(match.trimEnd());
+    return "";
   });
+
+  return {
+    imports: [...hiddenImports, ...visibleImports],
+    body: body.replace(/^\n+/, "").trimEnd(),
+  };
 }
 
 function sanitizeBody(code: string): string {
@@ -35,29 +44,22 @@ function sanitizeBody(code: string): string {
   return code.replace(/^\n+/, "").trimEnd();
 }
 
-export function generateTestFile(mdPath: string, blocks: CodeBlock[]): string {
-  const headerLines = ["import { test, expect } from 'vitest'"];
-  if (blocks.some((b) => b.isJsx())) {
-    headerLines.push("import { render, screen, fireEvent } from '@testing-library/react'");
-  }
+export function generateBlockFile(mdPath: string, block: CodeBlock): string {
+  const { imports, body } = splitCode(block.code);
+  const name = JSON.stringify(`${mdPath}:${block.line}`);
+  const cleanBody = sanitizeBody(body);
 
+  const headerLines = ["import { test, expect } from 'vitest'", ...imports];
   const header = headerLines.join("\n") + "\n\n";
 
-  const tests = blocks.map((block) => {
-    const stripped = stripHidden(block.code);
-    const body = sanitizeBody(convertImportsToDynamic(stripped));
-    const name = `${mdPath}:${block.line}`;
-
-    if (block.isSkipped()) {
-      return `test.skip(${JSON.stringify(name)}, async () => {\n${body}\n})`;
-    }
-
-    if (block.shouldThrow()) {
-      return `test(${JSON.stringify(name)}, async () => {\nawait expect(async () => {\n${body}\n}).rejects.toThrow()\n})`;
-    }
-
-    return `test(${JSON.stringify(name)}, async () => {\n${body}\n})`;
-  });
-
-  return header + tests.join("\n\n");
+  if (block.isSkipped()) {
+    return header + `test.skip(${name}, async () => {\n${cleanBody}\n})`;
+  }
+  if (block.shouldThrow()) {
+    return (
+      header +
+      `test(${name}, async () => {\nawait expect(async () => {\n${cleanBody}\n}).rejects.toThrow()\n})`
+    );
+  }
+  return header + `test(${name}, async () => {\n${cleanBody}\n})`;
 }

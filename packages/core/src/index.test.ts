@@ -1,5 +1,5 @@
-import { describe, test, expect } from "vitest";
-import { CodeBlock, parseCodeFences, stripHidden, generateTestFile } from "./index";
+import { describe, test, expect, vi } from "vitest";
+import { CodeBlock, parseCodeFences, stripHidden, generateBlockFile, generate } from "./index";
 
 describe("parseBlocks", () => {
   test("extracts ts blocks", () => {
@@ -98,86 +98,90 @@ function block(code: string, meta = "", line = 1, lang = "ts"): CodeBlock {
   return new CodeBlock(code, lang, meta, line);
 }
 
-describe("generateTestFile: header", () => {
+describe("generateBlockFile: header", () => {
   test("always includes vitest import", () => {
-    expect(generateTestFile("t.md", [])).toContain("from 'vitest'");
-  });
-
-  test("adds @testing-library/react for tsx blocks", () => {
-    const out = generateTestFile("t.mdx", [block("<div />", "", 1, "tsx")]);
-    expect(out).toContain("from '@testing-library/react'");
-    expect(out).toContain("render");
-    expect(out).toContain("screen");
-    expect(out).toContain("fireEvent");
-  });
-
-  test("adds @testing-library/react for jsx blocks", () => {
-    const out = generateTestFile("t.mdx", [block("<div />", "", 1, "jsx")]);
-    expect(out).toContain("from '@testing-library/react'");
-  });
-
-  test("omits @testing-library/react for ts-only blocks", () => {
-    const out = generateTestFile("t.md", [block("const x = 1")]);
-    expect(out).not.toContain("@testing-library/react");
+    expect(generateBlockFile("t.md", block(""))).toContain("from 'vitest'");
   });
 });
 
-describe("generateTestFile: test names", () => {
+describe("generateBlockFile: test names", () => {
   test("uses mdPath:line as the test name", () => {
-    const out = generateTestFile("docs/api.md", [block("const x = 1", "", 42)]);
+    const out = generateBlockFile("docs/api.md", block("const x = 1", "", 42));
     expect(out).toContain('"docs/api.md:42"');
   });
 });
 
-describe("generateTestFile: // hidden stripping", () => {
-  test("strips lines starting with // hidden", () => {
-    const b = block("// hidden import { x } from './setup'\nexpect(1).toBe(1)");
-    const out = generateTestFile("t.md", [b]);
-    expect(out).not.toContain("// hidden");
-    expect(out).toContain("expect(1).toBe(1)");
+describe("generateBlockFile: imports", () => {
+  test("hoists static imports to file level", () => {
+    const b = block("import { foo } from './foo'\nexpect(foo).toBe(1)");
+    const out = generateBlockFile("t.md", b);
+    const [header, body] = out.split(/test\(/);
+    expect(header).toContain("import { foo } from './foo'");
+    expect(body).not.toContain("import {");
   });
 
-  test("// hidden import stays out of the test body for tsx blocks", () => {
-    const code =
-      "// hidden import { render, screen } from '@testing-library/react'\nrender(<div />)";
-    const b = block(code, "", 1, "tsx");
-    const out = generateTestFile("t.mdx", [b]);
-    const testBody = out.split(/async \(\) => \{/)[1];
-    expect(testBody).not.toContain("import {");
-    expect(out).toContain("from '@testing-library/react'");
+  test("// hidden import is hoisted as a real import", () => {
+    const b = block("// hidden import { x } from './setup'\nexpect(x).toBe(1)");
+    const out = generateBlockFile("t.md", b);
+    expect(out).not.toContain("// hidden");
+    expect(out).toContain("import { x } from './setup'");
+    const [, body] = out.split(/test\(/);
+    expect(body).not.toContain("import {");
+  });
+
+  test("// hidden non-import lines are stripped", () => {
+    const b = block("// hidden const x = 1\nexpect(1).toBe(1)");
+    const out = generateBlockFile("t.md", b);
+    expect(out).not.toContain("// hidden");
+    expect(out).not.toContain("const x = 1");
   });
 });
 
-describe("generateTestFile: annotations", () => {
+describe("generateBlockFile: annotations", () => {
   test("should throw wraps block in rejects.toThrow()", () => {
     const b = block('throw new Error("boom")', "should throw");
-    const out = generateTestFile("t.md", [b]);
+    const out = generateBlockFile("t.md", b);
     expect(out).toContain(".rejects.toThrow()");
     expect(out).not.toContain("test.skip");
   });
 
   test("no run emits test.skip", () => {
-    const out = generateTestFile("t.md", [block("const x = 1", "no run")]);
+    const out = generateBlockFile("t.md", block("const x = 1", "no run"));
     expect(out).toContain("test.skip(");
   });
 
   test("compile fail emits test.skip", () => {
-    const out = generateTestFile("t.md", [block('const x: number = "nope"', "compile fail")]);
+    const out = generateBlockFile("t.md", block('const x: number = "nope"', "compile fail"));
     expect(out).toContain("test.skip(");
   });
 
-  test("should throw still strips // hidden", () => {
+  test("should throw still strips // hidden non-imports", () => {
     const b = block("// hidden const x = 1\nthrow new Error()", "should throw");
-    const out = generateTestFile("t.md", [b]);
+    const out = generateBlockFile("t.md", b);
     expect(out).not.toContain("// hidden");
     expect(out).toContain(".rejects.toThrow()");
   });
 });
 
-describe("generateTestFile: multiple blocks", () => {
-  test("generates one test per block", () => {
-    const blocks = [block("const a = 1"), block("const b = 2", "", 5)];
-    const out = generateTestFile("t.md", blocks);
-    expect(out.match(/^test[.(]/gm)).toHaveLength(2);
+describe("generate", () => {
+  test("returns 0 and logs when no docs are found", () => {
+    const log = vi.fn();
+    expect(generate("/docs", "__doctests__", { findDocs: () => [], log })).toBe(0);
+    expect(log).toHaveBeenCalledWith("No .md or .mdx files found under /docs");
+  });
+
+  test("writes one file per block named by line number", () => {
+    const writes: Array<{ path: string; content: string }> = [];
+    const total = generate("/repo", "__doctests__", {
+      findDocs: () => ["/repo/guide.md"],
+      readFile: () => "```ts\nconst x = 1\n```",
+      writeFile: (path, content) => writes.push({ path, content }),
+      clearDir: vi.fn(),
+      log: vi.fn(),
+    });
+
+    expect(total).toBe(1);
+    expect(writes[0]!.path).toBe("__doctests__/guide.md_1.test.ts");
+    expect(writes[0]!.content).toContain('"guide.md:1"');
   });
 });

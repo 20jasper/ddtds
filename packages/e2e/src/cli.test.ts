@@ -47,7 +47,7 @@ describe("cli smoke", () => {
 
     runCli(inDir, outDir);
 
-    expect(readdirSync(outDir)).toContain("docs_guide.md.test.ts");
-    expect(read(outDir, "docs_guide.md.test.ts")).toContain('"docs/guide.md:1"');
+    expect(readdirSync(outDir)).toContain("docs_guide.md_1.test.ts");
+    expect(read(outDir, "docs_guide.md_1.test.ts")).toContain('"docs/guide.md:1"');
   });
 });

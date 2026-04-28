@@ -10,7 +10,7 @@
     "@ddtds/vitest": "workspace:*",
     "@testing-library/jest-dom": "^6.0.0",
     "@testing-library/react": "^16.0.0",
-    "jsdom": "*",
+    "happy-dom": "*",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "vitest": "catalog:"

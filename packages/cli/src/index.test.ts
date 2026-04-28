@@ -22,13 +22,13 @@ describe("generate", () => {
         return "# prose only";
       },
       writeFile: (path, content) => writes.push({ path, content }),
-      ensureDir: vi.fn(),
+      clearDir: vi.fn(),
       log: vi.fn(),
     });
 
     expect(total).toBe(1);
     expect(writes).toHaveLength(1);
-    expect(writes[0]!.path).toBe("__doctests__/guide.md.test.ts");
-    expect(writes[0]!.content).toContain('test("guide.md:1"');
+    expect(writes[0]!.path).toBe("__doctests__/guide.md_1.test.ts");
+    expect(writes[0]!.content).toContain('"guide.md:1"');
   });
 });
