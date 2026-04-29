@@ -44,9 +44,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: '@typescript/native-preview@7.0.0-dev.20260427.1'
-      vitest:
-        specifier: ^4.1.5
-        version: 4.1.5(@types/node@24.12.2)(happy-dom@20.9.0)(jsdom@29.1.0)(vite@8.0.10(@types/node@24.12.2)(esbuild@0.27.7)(jiti@2.6.1)(tsx@4.21.0)(yaml@2.8.3))
 
   examples/js:
     devDependencies:
@@ -118,12 +115,6 @@ importers:
       '@types/node':
         specifier: 'catalog:'
         version: 24.12.2
-      vitest:
-        specifier: 'catalog:'
-        version: 4.1.5(@types/node@24.12.2)(happy-dom@20.9.0)(jsdom@29.1.0)(vite@8.0.10(@types/node@24.12.2)(esbuild@0.27.7)(jiti@2.6.1)(tsx@4.21.0)(yaml@2.8.3))
-
-  packages/e2e:
-    devDependencies:
       vitest:
         specifier: 'catalog:'
         version: 4.1.5(@types/node@24.12.2)(happy-dom@20.9.0)(jsdom@29.1.0)(vite@8.0.10(@types/node@24.12.2)(esbuild@0.27.7)(jiti@2.6.1)(tsx@4.21.0)(yaml@2.8.3))

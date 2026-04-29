@@ -9,6 +9,7 @@
     "lint": "oxlint .",
     "lint:fix": "oxlint . --fix",
     "typecheck": "pnpm -r run typecheck",
+    "test": "pnpm -r test",
     "test:packages": "pnpm --filter './packages/*' run test",
     "test:examples": "pnpm --filter '@ddtds/example-*' test",
     "knip": "knip"
@@ -21,8 +22,7 @@
     "oxlint": "^1.62.0",
     "oxlint-tsgolint": "^0.22.1",
     "tsx": "^4.21.0",
-    "typescript": "catalog:",
-    "vitest": "^4.1.5"
+    "typescript": "catalog:"
   },
   "engines": {
     "node": ">=24",
