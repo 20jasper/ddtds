@@ -12,6 +12,7 @@
     "test": "pnpm -r test",
     "test:packages": "pnpm --filter './packages/*' run test",
     "test:examples": "pnpm --filter '@ddtds/example-*' test",
+    "test:update-snapshots": "pnpm -r test -- -u",
     "knip": "knip"
   },
   "devDependencies": {

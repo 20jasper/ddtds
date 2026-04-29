@@ -1,5 +1,5 @@
 import { describe, test, expect, vi } from "vitest";
-import { generate } from "@ddtds/core";
+import { generate } from "@ddtds/vitest";
 
 describe("generate", () => {
   test("returns 0 and logs when no docs are found", () => {

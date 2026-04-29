@@ -54,6 +54,14 @@ const results = await Promise.all([Promise.resolve(1), Promise.resolve(2), Promi
 expect(results).toEqual([1, 2, 3]);
 ```
 
+## Expected throw
+
+Use `should throw` when a block is expected to throw:
+
+```js should throw
+throw new Error("boom");
+```
+
 ## Skipped example
 
 This block is intentionally broken but tagged `skip` so it won't run:

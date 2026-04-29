@@ -1,12 +1,11 @@
 # Component Examples
 
 Blocks tagged `tsx` are run as tests with `@testing-library/react`.
-Use `// hidden import` to bring in testing utilities without cluttering the rendered docs.
 
 ## Rendering
 
 ```tsx
-// hidden import { render, screen } from '@testing-library/react'
+import { render, screen } from "@testing-library/react";
 function Greeting({ name }: { name: string }) {
   return <p>Hello, {name}!</p>;
 }
@@ -17,7 +16,7 @@ expect(screen.getByText("Hello, world!")).toBeInTheDocument();
 Query by accessible role:
 
 ```tsx
-// hidden import { render, screen } from '@testing-library/react'
+import { render, screen } from "@testing-library/react";
 function SaveButton() {
   return <button type="submit">Save</button>;
 }
@@ -31,7 +30,7 @@ expect(screen.getByRole("button", { name: "Save" })).toBeInTheDocument();
 state in the DOM, so no React state is needed for a basic toggle assertion:
 
 ```tsx
-// hidden import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen, fireEvent } from "@testing-library/react";
 render(<input type="checkbox" aria-label="accept" />);
 const box = screen.getByRole("checkbox", { name: "accept" });
 expect(box).not.toBeChecked();

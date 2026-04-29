@@ -1,12 +1,10 @@
 import { readFileSync, writeFileSync, mkdirSync, rmSync } from "fs";
 import { join, relative, sep } from "path";
 import { globSync } from "tinyglobby";
-import { parseCodeFences } from "./blocks.ts";
-import { generateBlockFile } from "./codegen.ts";
+import { parseCodeFences, type CodeBlock } from "./blocks.ts";
 
-export { CodeBlock, parseCodeFences, stripHidden } from "./blocks.ts";
+export { CodeBlock, parseCodeFences } from "./blocks.ts";
 export { SUPPORTED_LANGS, ANNOTATIONS } from "./constants.ts";
-export { generateBlockFile } from "./codegen.ts";
 
 export function findDocs(dir: string): string[] {
   return globSync("**/*.{md,mdx}", { cwd: dir, ignore: ["**/node_modules/**"], absolute: true });
@@ -34,6 +32,7 @@ const defaultGenerateDeps: GenerateDeps = {
 export function generate(
   searchDir: string,
   outputDir: string,
+  renderBlockFile: (mdPath: string, block: CodeBlock) => string,
   deps?: Partial<GenerateDeps>,
 ): number {
   const resolved = { ...defaultGenerateDeps, ...deps };
@@ -57,7 +56,7 @@ export function generate(
     for (const block of blocks) {
       const outName = `${baseName}_${block.line}.test.${block.outputExtension}`;
       const outPath = join(outputDir, outName);
-      resolved.writeFile(outPath, generateBlockFile(relPath, block));
+      resolved.writeFile(outPath, renderBlockFile(relPath, block));
       resolved.log(`  ${relPath}:${block.line} -> ${outPath}`);
       total++;
     }
