@@ -1,9 +1,21 @@
 import type { Plugin } from "vitest/config";
-import { findDocs, generate as generateCore, type GenerateDeps } from "@ddtds/core";
+import { generate as generateCore, type GenerateDeps } from "@ddtds/core";
 import { generateBlockFile } from "./codegen.ts";
+import { createLogger, parseLogLevel } from "@ddtds/core/log";
+import type { LogLevel } from "@ddtds/core/log";
 
-export { findDocs, generateBlockFile };
 export type { CodeBlock, GenerateDeps } from "@ddtds/core";
+export type { LogLevel } from "@ddtds/core/log";
+
+export type DdtPluginOptions = {
+  /**
+   * Precedence (highest to lowest):
+   *   1. `DDT_LOG_LEVEL` environment variable
+   *   2. `logLevel` option
+   *   3. `"info"` (default)
+   */
+  logLevel?: LogLevel;
+};
 
 export function generate(
   searchDir: string,
@@ -13,11 +25,23 @@ export function generate(
   return generateCore(searchDir, outputDir, generateBlockFile, deps);
 }
 
-export function ddtPlugin(searchDir: string, outputDir: string): Plugin {
+/**
+ * @param searchDir Directory to scan for `.md` and `.mdx` files. Defaults to `"."`
+ * @param outputDir Directory to write test files. Defaults to `"__doctests__"`
+ */
+export function ddtPlugin(
+  searchDir: string = ".",
+  outputDir: string = "__doctests__",
+  options?: DdtPluginOptions,
+): Plugin {
   return {
     name: "vite-plugin-ddtds",
     config() {
-      generate(searchDir, outputDir);
+      const level = parseLogLevel(process.env.DDT_LOG_LEVEL ?? options?.logLevel);
+      const logger = createLogger(level);
+
+      generate(searchDir, outputDir, { logger });
+
       return { test: { include: [`${outputDir}/**/*.test.{ts,tsx}`] } };
     },
   };

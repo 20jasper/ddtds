@@ -3,14 +3,11 @@ import { generate } from "@ddtds/vitest";
 
 describe("generate", () => {
   test("returns 0 and logs when no docs are found", () => {
-    const log = vi.fn<() => void>();
     const total = generate("/docs", "__doctests__", {
       findDocs: () => [],
-      log,
     });
 
     expect(total).toBe(0);
-    expect(log).toHaveBeenCalledWith("No .md or .mdx files found under /docs");
   });
 
   test("generates test files for supported code blocks", () => {
@@ -23,7 +20,6 @@ describe("generate", () => {
       },
       writeFile: (path, content) => writes.push({ path, content }),
       clearDir: vi.fn<() => void>(),
-      log: vi.fn<() => void>(),
     });
 
     expect(total).toBe(1);

@@ -2,6 +2,7 @@ import { readFileSync, writeFileSync, mkdirSync, rmSync } from "fs";
 import { join, relative, sep } from "path";
 import { globSync } from "tinyglobby";
 import { parseCodeFences, type CodeBlock } from "./blocks.ts";
+import { createLoggerFromEnv, type Logger } from "./logger.ts";
 
 export { CodeBlock, parseCodeFences } from "./blocks.ts";
 export { SUPPORTED_LANGS, ANNOTATIONS } from "./constants.ts";
@@ -15,7 +16,7 @@ export interface GenerateDeps {
   readFile: (path: string) => string;
   writeFile: (path: string, content: string) => void;
   clearDir: (path: string) => void;
-  log: (message: string) => void;
+  logger: Logger;
 }
 
 const defaultGenerateDeps: GenerateDeps = {
@@ -26,7 +27,7 @@ const defaultGenerateDeps: GenerateDeps = {
     rmSync(path, { recursive: true, force: true });
     mkdirSync(path, { recursive: true });
   },
-  log: (message) => console.log(message),
+  logger: createLoggerFromEnv(),
 };
 
 export function generate(
@@ -36,32 +37,35 @@ export function generate(
   deps?: Partial<GenerateDeps>,
 ): number {
   const resolved = { ...defaultGenerateDeps, ...deps };
-  const docs = resolved.findDocs(searchDir);
+  const { findDocs, readFile, writeFile, clearDir, logger } = resolved;
+
+  const docs = findDocs(searchDir);
   if (docs.length === 0) {
-    resolved.log(`No .md or .mdx files found under ${searchDir}`);
+    logger.info(`No .md or .mdx files found under ${searchDir}`);
     return 0;
   }
 
-  resolved.clearDir(outputDir);
+  clearDir(outputDir);
   let total = 0;
 
   for (const mdPath of docs) {
-    const source = resolved.readFile(mdPath);
+    const source = readFile(mdPath);
     const blocks = parseCodeFences(source);
     if (blocks.length === 0) continue;
+    total += blocks.length;
 
     const relPath = relative(searchDir, mdPath);
     const baseName = relPath.split(sep).join("_");
+    logger.debug(`${relPath}: ${blocks.length} test${blocks.length === 1 ? "" : "s"}`);
 
     for (const block of blocks) {
       const outName = `${baseName}_${block.line}.test.${block.outputExtension}`;
       const outPath = join(outputDir, outName);
-      resolved.writeFile(outPath, renderBlockFile(relPath, block));
-      resolved.log(`  ${relPath}:${block.line} -> ${outPath}`);
-      total++;
+      writeFile(outPath, renderBlockFile(relPath, block));
+      logger.trace(`  ${relPath}:${block.line} -> ${outPath}`);
     }
   }
 
-  resolved.log(`\nTotal: ${total} tests`);
+  logger.info(`Total: ${total} tests`);
   return total;
 }

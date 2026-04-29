@@ -11,6 +11,18 @@
     "typeAware": true
   },
   "plugins": ["eslint", "typescript", "unicorn", "vitest", "import", "node", "promise", "oxc"],
+  "rules": {
+    "no-console": "error",
+    "no-shadow": "off"
+  },
+  "overrides": [
+    {
+      "files": ["packages/core/src/logger.ts"],
+      "rules": {
+        "no-console": "off"
+      }
+    }
+  ],
   "categories": {
     "correctness": "error",
     "suspicious": "warn",

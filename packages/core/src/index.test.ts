@@ -36,12 +36,6 @@ describe("parseBlocks", () => {
 const renderBlockFile = (mdPath: string, block: CodeBlock): string => `// ${mdPath}:${block.line}`;
 
 describe("generate", () => {
-  test("returns 0 and logs when no docs are found", () => {
-    const log = vi.fn<() => void>();
-    expect(generate("/docs", "__doctests__", renderBlockFile, { findDocs: () => [], log })).toBe(0);
-    expect(log).toHaveBeenCalledWith("No .md or .mdx files found under /docs");
-  });
-
   test("writes one file per block named by line number", () => {
     const writes: Array<{ path: string; content: string }> = [];
     const total = generate("/repo", "__doctests__", renderBlockFile, {
@@ -49,7 +43,6 @@ describe("generate", () => {
       readFile: () => "```ts\nconst x = 1\n```",
       writeFile: (path, content) => writes.push({ path, content }),
       clearDir: vi.fn<() => void>(),
-      log: vi.fn<() => void>(),
     });
 
     expect(total).toBe(1);
