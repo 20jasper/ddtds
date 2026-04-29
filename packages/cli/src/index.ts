@@ -1,9 +1,6 @@
 #!/usr/bin/env tsx
 import { cli, command } from "cleye";
-import { generate, findDocs } from "@ddtds/core";
-
-export { generate, findDocs };
-export type { GenerateDeps } from "@ddtds/core";
+import { generate } from "@ddtds/core";
 
 const buildCmd = command(
   {
