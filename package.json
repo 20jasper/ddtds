@@ -6,7 +6,7 @@
   "scripts": {
     "format": "oxfmt",
     "format:check": "oxfmt --check",
-    "lint": "oxlint .",
+    "lint": "oxlint . --max-warnings 0",
     "lint:fix": "oxlint . --fix",
     "typecheck": "pnpm -r run typecheck",
     "test": "pnpm -r test",
