@@ -6,6 +6,7 @@
     ".": "./src/index.ts"
   },
   "scripts": {
+    "bench": "vitest bench --run",
     "test": "vitest run",
     "typecheck": "tsgo"
   },

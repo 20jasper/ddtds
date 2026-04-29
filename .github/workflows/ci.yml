@@ -33,4 +33,5 @@ jobs:
       - run: pnpm run test:examples
         env:
           CI: true
+      - run: pnpm run bench
       - run: pnpm --filter @ddtds/core --filter ddtds --filter @ddtds/vitest publish --dry-run --no-git-checks
