@@ -1,5 +1,7 @@
 # ddtds
 
+[![CodSpeed](https://img.shields.io/endpoint?url=https://codspeed.io/badge.json)](https://codspeed.io/ddtds/ddtds?utm_source=badge)
+
 ddtds doctests that don't suck
 
 runs your code blocks as tests with your framework of choice
