@@ -1,4 +1,3 @@
-#!/usr/bin/env tsx
 import { cli, command } from "cleye";
 import { generate } from "@ddtds/core";
 
