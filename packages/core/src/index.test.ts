@@ -33,7 +33,40 @@ describe("parseBlocks", () => {
   });
 });
 
-const renderBlockFile = (mdPath: string, block: CodeBlock): string => `// ${mdPath}:${block.line}`;
+function block(code: string, meta = "", line = 1, lang = "ts"): CodeBlock {
+  return new CodeBlock(code, lang, meta, line);
+}
+
+describe("CodeBlock.splitImports", () => {
+  test("hoists static imports to file level", () => {
+    const b = block("import { foo } from './foo'\nexpect(foo).toBe(1)");
+    const { imports, body } = b.splitImports();
+    expect(imports).toEqual(["import { foo } from './foo'"]);
+    expect(body).not.toContain("import {");
+  });
+
+  test("strips export modifiers from runtime declarations", () => {
+    const b = block("export const base = 2;\nexport function addOne(x: number) { return x + 1; }");
+    const { body } = b.splitImports();
+    expect(body).toContain("const base = 2;");
+    expect(body).toContain("function addOne");
+    expect(body).not.toContain("export");
+  });
+
+  test("strips export default from named declarations", () => {
+    const b = block("export default class Greeter {}\nconst g = new Greeter();");
+    const { body } = b.splitImports();
+    expect(body).toContain("class Greeter {}");
+    expect(body).toContain("const g = new Greeter();");
+    expect(body).not.toContain("export default");
+  });
+
+  test("rewrites export default expressions", () => {
+    const b = block("export default 1;");
+    const { body } = b.splitImports();
+    expect(body).toMatchInlineSnapshot(`"const ______default_that_does_not_conflict = 1;"`);
+  });
+});
 
 describe("generate", () => {
   test("writes one file per block named by line number", () => {
@@ -50,3 +83,7 @@ describe("generate", () => {
     expect(writes[0]!.content).toContain("// guide.md:1");
   });
 });
+
+function renderBlockFile(mdPath: string, codeBlock: CodeBlock): string {
+  return `// ${mdPath}:${codeBlock.line}`;
+}

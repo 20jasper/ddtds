@@ -1,6 +1,6 @@
 # Codegen Import/Export Edge Cases
 
-These snippets are aimed at the import/export transformations used when generating doctests.
+These snippets cover import and export transformations used when generating doctests.
 
 ## Import Hoisting
 
@@ -54,9 +54,7 @@ const g = new Greeter("world");
 expect(g.greet()).toBe("hello world");
 ```
 
-## Declare Stripping
-
-`declare` statements should be removed from executable output.
+## Declare Is Fine
 
 ```ts
 declare const neverDefined: number;
@@ -81,4 +79,25 @@ const users: UserMap = {
 };
 
 expect(users.a?.id).toBe("a");
+```
+
+## Export Default Object Expression
+
+Default export expressions should be rewritten so they are valid inside the generated test function body.
+
+```ts
+export default { answer: 42 };
+
+expect(1 + 1).toBe(2);
+```
+
+## Export Named List Declaration
+
+Named export lists should be removed from the test body while keeping surrounding runtime code.
+
+```ts
+const foo = "ok";
+export { foo };
+
+expect(foo).toBe("ok");
 ```

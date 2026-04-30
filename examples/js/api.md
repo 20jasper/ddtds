@@ -56,9 +56,9 @@ expect(results).toEqual([1, 2, 3]);
 
 ## Expected throw
 
-Use `should throw` when a block is expected to throw:
+Use `should-throw` when a block is expected to throw:
 
-```js should throw
+```js should-throw
 throw new Error("boom");
 ```
 

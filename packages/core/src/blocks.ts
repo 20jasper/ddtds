@@ -1,13 +1,7 @@
 import { remark } from "remark";
 import { visit } from "unist-util-visit";
-import { Node, Project, type SourceFile, SyntaxKind } from "ts-morph";
 import { SUPPORTED_LANGS, ANNOTATIONS } from "./constants.ts";
-
-const project = new Project({
-  useInMemoryFileSystem: true,
-  skipFileDependencyResolution: true,
-  compilerOptions: { allowJs: true },
-});
+import { splitImportsAndBlock } from "./parse.ts";
 
 export class CodeBlock {
   readonly #code: string;
@@ -26,6 +20,10 @@ export class CodeBlock {
     return this.isJsx() ? "tsx" : "ts";
   }
 
+  get code(): string {
+    return this.#code;
+  }
+
   isJsx(): boolean {
     return this.lang === "tsx" || this.lang === "jsx";
   }
@@ -39,44 +37,7 @@ export class CodeBlock {
   }
 
   splitImports(): { imports: string[]; body: string } {
-    const file = project.createSourceFile(this.isJsx() ? "block.tsx" : "block.ts", this.#code, {
-      overwrite: true,
-    });
-
-    sanitizeExports(file);
-
-    const importDecls = file.getImportDeclarations();
-    const imports = importDecls.map((d) => d.getText().trimEnd());
-    importDecls.forEach((d) => d.remove());
-
-    return {
-      imports,
-      body: file
-        .getStatements()
-        .map((stmt) => stmt.getText().trimEnd())
-        .join("\n"),
-    };
-  }
-}
-
-function sanitizeExports(file: SourceFile): void {
-  for (const stmt of file.getStatements()) {
-    if (
-      Node.isVariableStatement(stmt) ||
-      Node.isFunctionDeclaration(stmt) ||
-      Node.isClassDeclaration(stmt) ||
-      Node.isInterfaceDeclaration(stmt) ||
-      Node.isTypeAliasDeclaration(stmt) ||
-      Node.isEnumDeclaration(stmt) ||
-      Node.isModuleDeclaration(stmt)
-    ) {
-      if (stmt.hasModifier(SyntaxKind.DeclareKeyword)) {
-        stmt.remove();
-        continue;
-      }
-      stmt.toggleModifier("default", false);
-      stmt.toggleModifier("export", false);
-    }
+    return splitImportsAndBlock(this);
   }
 }
 

@@ -38,7 +38,7 @@ Must haves
 1. support vitest
 2. CLI
 3. hide boilerplate (should it be # or other syntax)
-4. annotations (compile fail, no run, should throw)
+4. annotations (compile-fail, no-run, should-throw)
 5. --max-failures to ratchet down build failures incrementally
 6. agent skill to aid with migration and fixing build failures (prefer adding hidden imports to compile, do not add assertions??)
 7. ignore config (maybe file?)
