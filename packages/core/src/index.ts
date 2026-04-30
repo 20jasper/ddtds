@@ -6,6 +6,7 @@ import { createLoggerFromEnv, type Logger } from "./logger.ts";
 
 export { CodeBlock, parseCodeFences } from "./blocks.ts";
 export { SUPPORTED_LANGS, ANNOTATIONS } from "./constants.ts";
+export { wrapDdtTest } from "./error.ts";
 
 export function findDocs(dir: string): string[] {
   return globSync("**/*.{md,mdx}", { cwd: dir, ignore: ["**/node_modules/**"], absolute: true });

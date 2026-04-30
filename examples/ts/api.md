@@ -62,6 +62,14 @@ const results = await Promise.all([Promise.resolve(1), Promise.resolve(2), Promi
 expect(results).toEqual([1, 2, 3]);
 ```
 
+## Compile failure
+
+This block shows a bad TypeScript snippet that should fail to parse or compile. The doctest asserts that the invalid snippet throws.
+
+```ts compile-fail
+const hi;
+```
+
 ## Skipped example
 
 This block is intentionally broken but tagged `skip` so it won't run:
