@@ -1,40 +1,95 @@
 import { describe, test, expect, vi } from "vitest";
-import { ANNOTATIONS, CodeBlock, parseCodeFences, generate } from "./index";
+import { ANNOTATIONS, CodeBlock, parseCodeFences, generate, type Annotation } from "./index";
+import { createLogger } from "./logger";
+
+const silent = createLogger("silent");
 
 describe("parseBlocks", () => {
-  test("extracts ts blocks", () => {
-    const blocks = parseCodeFences("```ts\nconst x = 1\n```");
+  test.each([
+    ["ts", ANNOTATIONS.RUN],
+    ["typescript", ANNOTATIONS.RUN],
+    ["tsx", ANNOTATIONS.RUN],
+    ["jsx", ANNOTATIONS.RUN],
+    ["ts", ANNOTATIONS.FAIL],
+  ])("collects %s blocks annotated %s", (lang, annotation) => {
+    const blocks = parseCodeFences(`\`\`\`${lang} ${annotation}\nconst x = 1\n\`\`\``, silent);
     expect(blocks).toHaveLength(1);
-    expect(blocks[0]!).toMatchObject({ lang: "ts", line: 1 });
+    expect(blocks[0]!).toMatchObject({ lang });
   });
 
-  test("extracts typescript blocks", () => {
-    expect(parseCodeFences("```typescript\nconst x = 1\n```")).toHaveLength(1);
-  });
-
-  test("extracts jsx/tsx blocks", () => {
-    const tsx = parseCodeFences("```tsx\n<div />\n```");
-    const jsx = parseCodeFences("```jsx\n<div />\n```");
-    expect(tsx[0]!).toMatchObject({ lang: "tsx" });
-    expect(jsx[0]!).toMatchObject({ lang: "jsx" });
-  });
-
-  test("ignores unsupported langs", () => {
-    expect(parseCodeFences("```python\nx = 1\n```")).toHaveLength(0);
-  });
-
-  test("skips blocks annotated skip", () => {
-    expect(parseCodeFences(`\`\`\`ts ${ANNOTATIONS.SKIP}\nconst x = 1\n\`\`\``)).toHaveLength(0);
-  });
-
-  test("preserves meta string verbatim", () => {
-    const [b] = parseCodeFences(`\`\`\`ts ${ANNOTATIONS.SHOULD_THROW}\nthrow new Error()\n\`\`\``);
-    expect(b!.shouldThrow()).toBe(true);
+  test.each([
+    ["ts", ""],
+    ["ts", ANNOTATIONS.SKIP],
+    ["ts", "unrecognized"],
+    ["ts", `${ANNOTATIONS.SKIP} other`],
+    ["python", ANNOTATIONS.RUN],
+  ])("excludes %s blocks with meta %j", (lang, meta) => {
+    const src = meta
+      ? `\`\`\`${lang} ${meta}\nconst x = 1\n\`\`\``
+      : `\`\`\`${lang}\nconst x = 1\n\`\`\``;
+    expect(parseCodeFences(src, silent)).toHaveLength(0);
   });
 });
 
-function block(code: string, meta = "", line = 1, lang = "ts"): CodeBlock {
-  return new CodeBlock(code, lang, meta, line);
+describe("CodeBlock.isSkipped / shouldFail", () => {
+  test.each([
+    [null, true, false],
+    [ANNOTATIONS.SKIP, true, false],
+    [ANNOTATIONS.RUN, false, false],
+    [ANNOTATIONS.FAIL, false, true],
+  ] as const)(
+    "annotation=%j → isSkipped=%s shouldFail=%s",
+    (annotation, expectedSkipped, expectedFail) => {
+      const b = new CodeBlock("x", "ts", annotation, 1);
+      expect(b.isSkipped()).toBe(expectedSkipped);
+      expect(b.shouldFail()).toBe(expectedFail);
+    },
+  );
+});
+
+describe("CodeBlock.outputExtension / isJsx", () => {
+  test.each([
+    ["ts", "ts", false],
+    ["typescript", "ts", false],
+    ["js", "ts", false],
+    ["javascript", "ts", false],
+    ["tsx", "tsx", true],
+    ["jsx", "tsx", true],
+  ])("lang=%j → outputExtension=%j isJsx=%s", (lang, ext, jsx) => {
+    const b = new CodeBlock("x", lang, ANNOTATIONS.RUN, 1);
+    expect(b.outputExtension).toBe(ext);
+    expect(b.isJsx()).toBe(jsx);
+  });
+});
+
+describe("parseBlocks: line numbers", () => {
+  test("records correct line for each block in multi-block source", () => {
+    const source = [
+      "```ts run",
+      "const a = 1",
+      "```",
+      "",
+      "prose",
+      "",
+      "```ts run",
+      "const b = 2",
+      "```",
+    ].join("\n");
+
+    const blocks = parseCodeFences(source, silent);
+    expect(blocks).toHaveLength(2);
+    expect(blocks[0]!.line).toBe(1);
+    expect(blocks[1]!.line).toBe(7);
+  });
+});
+
+function block(
+  code: string,
+  annotation: Annotation | null = null,
+  line = 1,
+  lang = "ts",
+): CodeBlock {
+  return new CodeBlock(code, lang, annotation, line);
 }
 
 describe("CodeBlock.splitImports", () => {
@@ -73,7 +128,7 @@ describe("generate", () => {
     const writes: Array<{ path: string; content: string }> = [];
     const total = generate("/repo", "__doctests__", renderBlockFile, {
       findDocs: () => ["/repo/guide.md"],
-      readFile: () => "```ts\nconst x = 1\n```",
+      readFile: () => "```ts run\nconst x = 1\n```",
       writeFile: (path, content) => writes.push({ path, content }),
       clearDir: vi.fn<() => void>(),
     });

@@ -1,20 +1,19 @@
 import { describe, expect, test } from "vitest";
-import { ANNOTATIONS, CodeBlock } from "@ddtds/core";
+import { ANNOTATIONS, CodeBlock, type Annotation } from "@ddtds/core";
 import { generateBlockFile } from "./codegen";
 
-function block(code: string, meta = "", line = 1, lang = "ts"): CodeBlock {
-  return new CodeBlock(code, lang, meta, line);
+function block(
+  code: string,
+  annotation: Annotation | null = null,
+  line = 1,
+  lang = "ts",
+): CodeBlock {
+  return new CodeBlock(code, lang, annotation, line);
 }
 
 function assertTestRun(x: string) {
   expect(x).toContain("test");
   expect(x).not.toContain("skip");
-  expect(x).not.toContain("reject");
-}
-
-function assertTestSkip(x: string) {
-  expect(x).toContain("test");
-  expect(x).toContain("skip");
   expect(x).not.toContain("reject");
 }
 
@@ -71,11 +70,14 @@ describe("generateBlockFile: imports", () => {
 });
 
 describe("generateBlockFile: annotations", () => {
-  test("should throw wraps in rejects.toThrow", () => {
-    const out = generateBlockFile(
-      "t.md",
-      block('throw new Error("boom")', ANNOTATIONS.SHOULD_THROW),
-    );
+  test("run annotation generates plain test", () => {
+    const out = generateBlockFile("t.md", block("expect(1).toBe(1)", ANNOTATIONS.RUN));
+    assertTestRun(out);
+    expect(out).not.toContain("rejects");
+  });
+
+  test("fail annotation wraps in rejects.toThrow", () => {
+    const out = generateBlockFile("t.md", block('throw new Error("boom")', ANNOTATIONS.FAIL));
 
     assertTestReject(out);
     expect(out).toContain(".rejects.toThrow();");
@@ -88,26 +90,6 @@ describe("generateBlockFile: annotations", () => {
             throw new Error("boom")
           }).rejects.toThrow();
         });
-      });"
-    `);
-  });
-
-  test("skip annotations emit test.skip", () => {
-    const noRun = generateBlockFile("t.md", block("const x = 1", ANNOTATIONS.NO_RUN));
-
-    assertTestSkip(noRun);
-    expect(noRun).not.toContain("const x = 1");
-    expect(noRun).toMatchInlineSnapshot(`
-      "import { test, expect } from 'vitest';test.skip("t.md:1", async () => {
-      });"
-    `);
-
-    const compileFail = generateBlockFile("t.md", block("const x = 1", ANNOTATIONS.COMPILE_FAIL));
-
-    assertTestSkip(compileFail);
-    expect(compileFail).not.toContain("const x = 1");
-    expect(compileFail).toMatchInlineSnapshot(`
-      "import { test, expect } from 'vitest';test.skip("t.md:1", async () => {
       });"
     `);
   });
