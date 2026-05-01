@@ -5,6 +5,7 @@ import { createLogger, parseLogLevel } from "@ddtds/core/log";
 import type { LogLevel } from "@ddtds/core/log";
 
 export type { CodeBlock, GenerateDeps } from "@ddtds/core";
+export { wrapDdtTest } from "@ddtds/core";
 export type { LogLevel } from "@ddtds/core/log";
 
 export type DdtPluginOptions = {

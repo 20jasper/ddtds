@@ -35,10 +35,13 @@ describe("generateBlockFile: basic", () => {
     expect(output).toContain("expect(hi).toBe('10');");
 
     expect(output).toMatchInlineSnapshot(`
-      "import { test, expect } from 'vitest'
+      "import { test, expect } from 'vitest';
+      import { DdtTestError, wrapDdtTest } from '@ddtds/vitest'
       test("example.md:1", async () => {
-        const hi = '10';
-        expect(hi).toBe('10');
+        await wrapDdtTest(async () => {
+          const hi = '10';
+          expect(hi).toBe('10');
+        });
       });"
     `);
   });
@@ -51,14 +54,17 @@ describe("generateBlockFile: imports", () => {
 
     assertTestRun(out);
     expect(out).toMatchInlineSnapshot(`
-      "import { test, expect } from 'vitest'
+      "import { test, expect } from 'vitest';
+      import { DdtTestError, wrapDdtTest } from '@ddtds/vitest'
       import {
         foo,
         bar,
         baz,
       } from './utils'
       test("t.md:1", async () => {
-        foo()
+        await wrapDdtTest(async () => {
+          foo()
+        });
       });"
     `);
   });
@@ -74,11 +80,14 @@ describe("generateBlockFile: annotations", () => {
     assertTestReject(out);
     expect(out).toContain(".rejects.toThrow();");
     expect(out).toMatchInlineSnapshot(`
-      "import { test, expect } from 'vitest'
+      "import { test, expect } from 'vitest';
+      import { DdtTestError, wrapDdtTest } from '@ddtds/vitest'
       test("t.md:1", async () => {
-        await expect(async () => {
-        throw new Error("boom")
-        }).rejects.toThrow();
+        await wrapDdtTest(async () => {
+          await expect(async () => {
+            throw new Error("boom")
+          }).rejects.toThrow();
+        });
       });"
     `);
   });
@@ -89,8 +98,7 @@ describe("generateBlockFile: annotations", () => {
     assertTestSkip(noRun);
     expect(noRun).not.toContain("const x = 1");
     expect(noRun).toMatchInlineSnapshot(`
-      "import { test, expect } from 'vitest'
-      test.skip("t.md:1", async () => {
+      "import { test, expect } from 'vitest';test.skip("t.md:1", async () => {
       });"
     `);
 
@@ -99,8 +107,7 @@ describe("generateBlockFile: annotations", () => {
     assertTestSkip(compileFail);
     expect(compileFail).not.toContain("const x = 1");
     expect(compileFail).toMatchInlineSnapshot(`
-      "import { test, expect } from 'vitest'
-      test.skip("t.md:1", async () => {
+      "import { test, expect } from 'vitest';test.skip("t.md:1", async () => {
       });"
     `);
   });
