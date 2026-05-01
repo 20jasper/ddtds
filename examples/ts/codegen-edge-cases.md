@@ -6,7 +6,7 @@ These snippets cover import and export transformations used when generating doct
 
 Named imports from Node builtins should still work after import extraction and hoisting.
 
-```ts
+```ts run
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -18,7 +18,7 @@ expect(join(dir, "child")).toContain("child");
 
 Export modifiers on runtime declarations should be sanitized without changing behavior.
 
-```ts
+```ts run
 export const base = 2;
 export function addOne(x: number): number {
   return x + 1;
@@ -41,7 +41,7 @@ expect(c.value).toBe(1);
 
 `export default class` should be rewritten without leaving invalid syntax.
 
-```ts
+```ts run
 export default class Greeter {
   constructor(private readonly name: string) {}
 
@@ -56,7 +56,7 @@ expect(g.greet()).toBe("hello world");
 
 ## Declare Is Fine
 
-```ts
+```ts run
 declare const neverDefined: number;
 
 const safe = 1;
@@ -67,7 +67,7 @@ expect(safe).toBe(1);
 
 Type-only declarations should survive type-checking and not affect runtime assertions.
 
-```ts
+```ts run
 export interface User {
   id: string;
 }
@@ -85,7 +85,7 @@ expect(users.a?.id).toBe("a");
 
 Default export expressions should be rewritten so they are valid inside the generated test function body.
 
-```ts
+```ts run
 export default { answer: 42 };
 
 expect(1 + 1).toBe(2);
@@ -95,7 +95,7 @@ expect(1 + 1).toBe(2);
 
 Named export lists should be removed from the test body while keeping surrounding runtime code.
 
-```ts
+```ts run
 const foo = "ok";
 export { foo };
 

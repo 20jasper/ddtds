@@ -15,7 +15,7 @@ describe("generate", () => {
     const total = generate("/repo", "__doctests__", {
       findDocs: () => ["/repo/guide.md", "/repo/empty.md"],
       readFile: (path) => {
-        if (path.endsWith("guide.md")) return "```ts\nconst x = 1\n```";
+        if (path.endsWith("guide.md")) return "```ts run\nconst x = 1\n```";
         return "# prose only";
       },
       writeFile: (path, content) => writes.push({ path, content }),

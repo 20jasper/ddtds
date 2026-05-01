@@ -37,6 +37,6 @@ expect(new Greeter("world").greet()).toBe("hello world");`;
 
 describe("CodeBlock.splitImports", () => {
   bench("split imports and sanitize block", () => {
-    new CodeBlock(code, "ts", "", 1).splitImports();
+    new CodeBlock(code, "ts", null, 1).splitImports();
   });
 });

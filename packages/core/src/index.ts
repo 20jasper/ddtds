@@ -5,7 +5,7 @@ import { parseCodeFences, type CodeBlock } from "./blocks.ts";
 import { createLoggerFromEnv, type Logger } from "./logger.ts";
 
 export { CodeBlock, parseCodeFences } from "./blocks.ts";
-export { SUPPORTED_LANGS, ANNOTATIONS } from "./constants.ts";
+export { SUPPORTED_LANGS, ANNOTATIONS, type Annotation } from "./constants.ts";
 export { wrapDdtTest } from "./error.ts";
 
 export function findDocs(dir: string): string[] {
@@ -51,7 +51,7 @@ export function generate(
 
   for (const mdPath of docs) {
     const source = readFile(mdPath);
-    const blocks = parseCodeFences(source);
+    const blocks = parseCodeFences(source, logger);
     if (blocks.length === 0) continue;
     total += blocks.length;
 
