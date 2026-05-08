@@ -20,7 +20,7 @@
     "@types/node": "catalog:",
     "knip": "6.11.0",
     "lefthook": "2.1.6",
-    "oxfmt": "0.47.0",
+    "oxfmt": "0.48.0",
     "oxlint": "1.62.0",
     "oxlint-tsgolint": "0.22.1",
     "tsx": "4.21.0",
