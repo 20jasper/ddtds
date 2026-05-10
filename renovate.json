@@ -2,8 +2,18 @@
   "extends": ["config:best-practices"],
   "packageRules": [
     {
+      "matchManagers": ["cargo", "npm"],
       "matchDepTypes": ["devDependencies"],
+      "groupName": "dev deps (minor + patch)",
+      "matchUpdateTypes": ["patch", "minor"],
       "automerge": true
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "groupName": "github actions",
+      "matchUpdateTypes": ["patch", "minor", "digest"],
+      "automerge": true,
+      "minimumReleaseAge": "14 days"
     }
   ]
 }
