@@ -8,6 +8,6 @@
   },
   "devDependencies": {
     "@ddtds/vitest": "workspace:*",
-    "vitest": "catalog:"
+    "vitest": "catalog:dev"
   }
 }
