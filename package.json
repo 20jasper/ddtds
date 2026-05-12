@@ -17,14 +17,14 @@
     "knip": "knip"
   },
   "devDependencies": {
-    "@types/node": "catalog:",
+    "@types/node": "catalog:dev",
     "knip": "6.12.1",
     "lefthook": "2.1.6",
     "oxfmt": "0.48.0",
     "oxlint": "1.63.0",
     "oxlint-tsgolint": "0.22.1",
     "tsx": "4.21.0",
-    "typescript": "catalog:"
+    "typescript": "catalog:dev"
   },
   "engines": {
     "node": ">=24",

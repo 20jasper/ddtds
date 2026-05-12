@@ -13,7 +13,9 @@
     "@ddtds/core": "workspace:*"
   },
   "devDependencies": {
-    "vite": "8.0.11",
-    "vitest": "catalog:"
+    "vitest": "catalog:dev"
+  },
+  "peerDependencies": {
+    "vitest": "^4.0.0"
   }
 }

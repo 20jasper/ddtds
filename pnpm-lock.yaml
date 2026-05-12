@@ -5,7 +5,7 @@ settings:
   excludeLinksFromLockfile: false
 
 catalogs:
-  default:
+  dev:
     '@types/node':
       specifier: ^24.12.2
       version: 24.12.3
@@ -21,7 +21,7 @@ importers:
   .:
     devDependencies:
       '@types/node':
-        specifier: 'catalog:'
+        specifier: catalog:dev
         version: 24.12.3
       knip:
         specifier: 6.12.1
@@ -42,7 +42,7 @@ importers:
         specifier: 4.21.0
         version: 4.21.0
       typescript:
-        specifier: 'catalog:'
+        specifier: catalog:dev
         version: '@typescript/native-preview@7.0.0-dev.20260506.1'
 
   examples/js:
@@ -51,7 +51,7 @@ importers:
         specifier: workspace:*
         version: link:../../packages/vitest
       vitest:
-        specifier: 'catalog:'
+        specifier: catalog:dev
         version: 4.1.5(@types/node@25.6.2)(happy-dom@20.9.0)(vite@8.0.11(@types/node@25.6.2)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.21.0)(yaml@2.8.4))
 
   examples/react:
@@ -75,7 +75,7 @@ importers:
         specifier: ^19.0.0
         version: 19.2.6(react@19.2.6)
       vitest:
-        specifier: 'catalog:'
+        specifier: catalog:dev
         version: 4.1.5(@types/node@25.6.2)(happy-dom@20.9.0)(vite@8.0.11(@types/node@25.6.2)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.21.0)(yaml@2.8.4))
 
   examples/ts:
@@ -84,7 +84,7 @@ importers:
         specifier: workspace:*
         version: link:../../packages/vitest
       vitest:
-        specifier: 'catalog:'
+        specifier: catalog:dev
         version: 4.1.5(@types/node@25.6.2)(happy-dom@20.9.0)(vite@8.0.11(@types/node@25.6.2)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.21.0)(yaml@2.8.4))
 
   packages/cli:
@@ -97,7 +97,7 @@ importers:
         version: 2.6.0
     devDependencies:
       vitest:
-        specifier: 'catalog:'
+        specifier: catalog:dev
         version: 4.1.5(@types/node@25.6.2)(happy-dom@20.9.0)(vite@8.0.11(@types/node@25.6.2)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.21.0)(yaml@2.8.4))
 
   packages/core:
@@ -122,10 +122,10 @@ importers:
         specifier: 5.4.0
         version: 5.4.0(tinybench@2.9.0)(vite@8.0.11(@types/node@24.12.3)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.21.0)(yaml@2.8.4))(vitest@4.1.5(@types/node@24.12.3)(happy-dom@20.9.0)(vite@8.0.11(@types/node@24.12.3)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.21.0)(yaml@2.8.4)))
       '@types/node':
-        specifier: 'catalog:'
+        specifier: catalog:dev
         version: 24.12.3
       vitest:
-        specifier: 'catalog:'
+        specifier: catalog:dev
         version: 4.1.5(@types/node@24.12.3)(happy-dom@20.9.0)(vite@8.0.11(@types/node@24.12.3)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.21.0)(yaml@2.8.4))
 
   packages/vitest:
@@ -134,11 +134,8 @@ importers:
         specifier: workspace:*
         version: link:../core
     devDependencies:
-      vite:
-        specifier: 8.0.11
-        version: 8.0.11(@types/node@25.6.2)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.21.0)(yaml@2.8.4)
       vitest:
-        specifier: 'catalog:'
+        specifier: catalog:dev
         version: 4.1.5(@types/node@25.6.2)(happy-dom@20.9.0)(vite@8.0.11(@types/node@25.6.2)(esbuild@0.27.7)(jiti@2.7.0)(tsx@4.21.0)(yaml@2.8.4))
 
 packages:
